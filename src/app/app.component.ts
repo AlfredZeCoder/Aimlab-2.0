@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-
-
 interface Position  {
   xPosition : number;
   yPosition : number;
