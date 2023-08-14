@@ -1,8 +1,8 @@
-<span>
-  <button style="width: 180px; height: 50px;" (click)="sartTheGameAndRandomiseCircles()" (click)="timerToStopTheGame()" >Randomise</button>
+<span class="principal-span">
   <input [(ngModel)]="timerForLengthOfTheGame" type="number" placeholder="Duration of the game (seconds)" style="width: 220px; height: 30px;" >
-  <h1 *ngIf="undefinedTimerForTheGame"> You need to enter a valid number</h1>
-  <h3>{{durationOfTheGame | async}}</h3>
+  <button style="width: 180px; height: 50px;" (click)="sartTheGameAndRandomiseCircles()" (click)="timerToStopTheGame()" >Start</button>
+  <h3 style="color: red;" *ngIf="undefinedTimerForTheGame"> You need to enter a valid number</h3>
+  <h3>Timer: {{durationOfTheGame | async}}</h3>
   <h2 *ngIf="displayScore">Your score is {{scoreOfPlayer}}!</h2>
 </span>
 <div *ngFor="let position of coordinatesOfCircles" class="container">
