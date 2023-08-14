@@ -17,7 +17,7 @@ export class AppComponent {
   //Self explanatory...
   asClickedTheCircle$ = new BehaviorSubject<boolean>(false);
 
-  //This timer is for the circle to display and than disapear
+  //This timer is for the circle to display and then disapear
   timerToDisplayCircle = timer(0, 1000); //Time starts at 0...
 
   //This timer is the count down for the duration of the game
