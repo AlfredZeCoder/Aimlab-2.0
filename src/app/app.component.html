@@ -1,10 +1,14 @@
-<button style="width: 180px; height: 50px;" (click)="reset()">Reset</button>
-<button style="width: 180px; height: 50px;" (click)="resetLast()" >Reset Last</button>
-<div class="container" (click)="getCoordinates($event)">
-  <div *ngFor="let position of coordinates" class="circle" 
-  [ngStyle]="{
-    'left.px': position.xPosition - 12,
-    'top.px': position.yPosition - 12
-    }">
-  </div>
+<span>
+  <button style="width: 180px; height: 50px;" (click)="sartTheGameAndRandomiseCircles()" (click)="timerToStopTheGame()" >Randomise</button>
+  <input [(ngModel)]="timerForLengthOfTheGame" type="number" placeholder="Duration of the game (seconds)" style="width: 220px; height: 30px;" >
+  <h1 *ngIf="undefinedTimerForTheGame"> You need to enter a valid number</h1>
+  <h3>{{durationOfTheGame | async}}</h3>
+  <h2 *ngIf="displayScore">Your score is {{scoreOfPlayer}}!</h2>
+</span>
+<div *ngFor="let position of coordinatesOfCircles" class="container">
+  <div (click)="checkForClientClick($event)" class="circle" [ngStyle]="{
+   'left.px': position.xPosition - 12,
+   'top.px': position.yPosition - 12 
+  }"></div>
 </div>      
+
