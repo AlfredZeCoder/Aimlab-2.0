@@ -12,7 +12,10 @@ interface Position {
 })
 export class AppComponent {
   //New circles positions will be added here
-  coordinatesOfCircles: Position[] = [];
+  coordinatesOfCircles: Position[] = [
+    //xPosition = 500
+    //yPosition = 500
+  ];
 
   //Self explanatory...
   asClickedTheCircle$ = new BehaviorSubject<boolean>(false);
@@ -52,9 +55,9 @@ export class AppComponent {
   })
 
   //Called when the game is started
-  sartTheGameAndRandomiseCircles(): Promise<void> | boolean {
+  sartTheGameAndRandomiseCircles(): Promise<Subscription | void> | boolean {
     //This if block check if the duration of the game set by the user is valid
-    if (!this.timerForLengthOfTheGame || Number.isNaN(this.timerForLengthOfTheGame) == true) {
+    if (!this.timerForLengthOfTheGame || Number.isNaN(this.timerForLengthOfTheGame)) {
       return this.undefinedTimerForTheGame = true;
     }
     //else:
@@ -65,12 +68,12 @@ export class AppComponent {
     //This if-else is always checking to see if the timer is over
     //If its over (you will see later) the function stops
     if (this.timeIsOver.getValue() !== true) {
-      return new Promise<Observable<void> | void>((resolve) => {
+      return new Promise<Subscription | void>((resolve) => {
         //The setTimeout block allows the circles to display one after one after two seconds
         setTimeout(() => {
           this.getNewCirclePosition$.next({
-            xPosition: Math.round(Math.random() * 1000),
-            yPosition: Math.round(Math.random() * 1000)
+            xPosition: Math.round(Math.random() * 1000), //500
+            yPosition: Math.round(Math.random() * 1000) //500
           });
           //The coordinates get push in the array
           this.coordinatesOfCircles.push(this.getNewCirclePosition$.getValue());
@@ -84,7 +87,7 @@ export class AppComponent {
             this.timerSubscription.unsubscribe();
           }
           //Assigning the subscription variable to a real subscription
-          this.timerSubscription = this.timerToDisplayCircle
+         return this.timerSubscription! = this.timerToDisplayCircle
             .pipe(
               //The takeWhile is taking value below or equal to 1
               //(Reminder that the timer starts at 0)
@@ -150,6 +153,6 @@ export class AppComponent {
   }
 
   restartGame(): void {
-    window.location.reload();
+   return window.location.reload();
   }
 }
