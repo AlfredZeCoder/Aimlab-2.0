@@ -1,6 +1,7 @@
 <span class="principal-span">
   <input [(ngModel)]="timerForLengthOfTheGame" type="number" placeholder="Duration of the game (seconds)" style="width: 220px; height: 30px;" >
-  <button style="width: 180px; height: 50px;" (click)="sartTheGameAndRandomiseCircles()" (click)="timerToStopTheGame()" >Start</button>
+  <button *ngIf="!displayScore" style="width: 180px; height: 50px;" (click)="sartTheGameAndRandomiseCircles()" (click)="timerToStopTheGame()" >Start</button>
+  <button *ngIf="displayScore" style="width: 180px; height: 50px;" (click)="sartTheGameAndRandomiseCircles()" (click)="restartGame()" >Restart</button>
   <h3 style="color: red;" *ngIf="undefinedTimerForTheGame"> You need to enter a valid number</h3>
   <h3>Timer: {{durationOfTheGame | async}}</h3>
   <h2 *ngIf="displayScore">Your score is {{scoreOfPlayer}}!</h2>

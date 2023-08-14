@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BehaviorSubject, Subscription, takeWhile, timer } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, takeWhile, timer } from 'rxjs';
 
 interface Position {
   xPosition: number;
@@ -15,10 +15,10 @@ export class AppComponent {
   coordinatesOfCircles: Position[] = [];
 
   //Self explanatory...
-  asClickedTheCircle$ = new BehaviorSubject(false)
+  asClickedTheCircle$ = new BehaviorSubject<boolean>(false);
 
   //This timer is for the circle to display and than disapear
-  timerToDisplayCircle = timer(0, 1000) //Time starts at 0...
+  timerToDisplayCircle = timer(0, 1000); //Time starts at 0...
 
   //This timer is the count down for the duration of the game
   timerForTheGame = timer(0, 1000);
@@ -27,7 +27,7 @@ export class AppComponent {
   durationOfTheGame = new BehaviorSubject<number>(0);
 
   //The duration of the game is over
-  timeIsOver = new BehaviorSubject<Boolean>(false)
+  timeIsOver = new BehaviorSubject<Boolean>(false);
 
   //These are there because Rxjs can be funny sometimes...
   timerSubscription?: Subscription;
@@ -52,7 +52,7 @@ export class AppComponent {
   })
 
   //Called when the game is started
-  sartTheGameAndRandomiseCircles() {
+  sartTheGameAndRandomiseCircles(): Promise<void> | boolean {
     //This if block check if the duration of the game set by the user is valid
     if (!this.timerForLengthOfTheGame || Number.isNaN(this.timerForLengthOfTheGame) == true) {
       return this.undefinedTimerForTheGame = true;
@@ -65,7 +65,7 @@ export class AppComponent {
     //This if-else is always checking to see if the timer is over
     //If its over (you will see later) the function stops
     if (this.timeIsOver.getValue() !== true) {
-      return new Promise<void>((resolve) => {
+      return new Promise<Observable<void> | void>((resolve) => {
         //The setTimeout block allows the circles to display one after one after two seconds
         setTimeout(() => {
           this.getNewCirclePosition$.next({
@@ -94,7 +94,8 @@ export class AppComponent {
               //This if block check if its been 2 seconds
               //If so, the coordinates array gets reset and the function is beeing called again
               //This is why we need to unsubscribe at line 84.
-              //If we do not unsubsribe, the timer just go up and up and up and up and...
+              //If we do not unsubsribe, the timer just go up and up and up and up and
+              //the condition will never be met again
               if (time == 1) {
                 this.coordinatesOfCircles = []
                 this.sartTheGameAndRandomiseCircles()
@@ -107,7 +108,7 @@ export class AppComponent {
   }
 
   //This function check for a click on a circle
-  checkForClientClick($event: MouseEvent) {
+  checkForClientClick($event: MouseEvent): void {
     //If we have a click :
     if ($event) {
       //The array of coordinates get rest
@@ -122,7 +123,7 @@ export class AppComponent {
   }
 
   //This function is called to stop the game once the timer is down to 0
-  timerToStopTheGame() {
+  timerToStopTheGame(): boolean | void {
     //This if block check if the duration of the game set by the user is valid
     //Without it, the rest of the code is doing some weird things...
     if (!this.timerForLengthOfTheGame || Number.isNaN(this.timerForLengthOfTheGame) == true) {
@@ -146,5 +147,9 @@ export class AppComponent {
       }
     })
     return;
+  }
+
+  restartGame(): void {
+    window.location.reload();
   }
 }
