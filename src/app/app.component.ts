@@ -12,10 +12,7 @@ interface Position {
 })
 export class AppComponent {
   //New circles positions will be added here
-  coordinatesOfCircles: Position[] = [
-    //xPosition = 500
-    //yPosition = 500
-  ];
+  coordinatesOfCircles: Position[] = [];
 
   //Self explanatory...
   asClickedTheCircle$ = new BehaviorSubject<boolean>(false);
@@ -52,14 +49,14 @@ export class AppComponent {
   getNewCirclePosition$ = new BehaviorSubject<Position>({
     xPosition: 0,
     yPosition: 0
-  })
+  });
 
   //Called when the game is started
   sartTheGameAndRandomiseCircles(): Promise<Subscription | void> | boolean {
     //This if block check if the duration of the game set by the user is valid
     if (!this.timerForLengthOfTheGame || Number.isNaN(this.timerForLengthOfTheGame)) {
       return this.undefinedTimerForTheGame = true;
-    }
+    };
     //else:
     this.undefinedTimerForTheGame = false;
 
@@ -72,20 +69,20 @@ export class AppComponent {
         //The setTimeout block allows the circles to display one after one after two seconds
         setTimeout(() => {
           this.getNewCirclePosition$.next({
-            xPosition: Math.round(Math.random() * 1000), //500
-            yPosition: Math.round(Math.random() * 1000) //500
+            xPosition: Math.round(Math.random() * 1000),
+            yPosition: Math.round(Math.random() * 1000)
           });
           //The coordinates get push in the array
           this.coordinatesOfCircles.push(this.getNewCirclePosition$.getValue());
           //The promise is complete
-          resolve()
-        }, 1000)
+          resolve();
+        }, 1000);
       })
         .then(() => {
           //This if block check if there is already a subscription to the timer
           if (this.timerSubscription) {
             this.timerSubscription.unsubscribe();
-          }
+          };
           //Assigning the subscription variable to a real subscription
          return this.timerSubscription! = this.timerToDisplayCircle
             .pipe(
@@ -100,15 +97,15 @@ export class AppComponent {
               //If we do not unsubsribe, the timer just go up and up and up and up and
               //the condition will never be met again
               if (time == 1) {
-                this.coordinatesOfCircles = []
-                this.sartTheGameAndRandomiseCircles()
-              }
-            })
-        })
-    }
+                this.coordinatesOfCircles = [];
+                this.sartTheGameAndRandomiseCircles();
+              };
+            });
+        });
+    };
     //If the timer is over (timeIsOver.getValue() == true) we display the score
     return this.displayScore = true;
-  }
+  };
 
   //This function check for a click on a circle
   checkForClientClick($event: MouseEvent): void {
@@ -117,13 +114,13 @@ export class AppComponent {
       //The array of coordinates get rest
       this.coordinatesOfCircles = [];
       //The score gets incremented
-      this.scoreOfPlayer++
+      this.scoreOfPlayer++;
       //We unsubscribe the timer for the same reason as earlier
-      this.timerSubscription?.unsubscribe()
+      this.timerSubscription?.unsubscribe();
       //We call the function again to put new circles
-      this.sartTheGameAndRandomiseCircles()
-    }
-  }
+      this.sartTheGameAndRandomiseCircles();
+    };
+  };
 
   //This function is called to stop the game once the timer is down to 0
   timerToStopTheGame(): boolean | void {
@@ -131,28 +128,28 @@ export class AppComponent {
     //Without it, the rest of the code is doing some weird things...
     if (!this.timerForLengthOfTheGame || Number.isNaN(this.timerForLengthOfTheGame) == true) {
       return this.undefinedTimerForTheGame = true;
-    }
+    };
     //Assigning the second subscription variable to a real subscription
     this.timerSub = this.timerForTheGame.subscribe(time => {
       //We are nexting the number that the timer should display
-      this.durationOfTheGame.next(this.timerForLengthOfTheGame! - time)
+      this.durationOfTheGame.next(this.timerForLengthOfTheGame! - time);
       //We then need to unsubscribe when the time hit 0 
       //because the timer will go -1, -2, etc
       if (this.durationOfTheGame.getValue() == 0) {
-        this.timerSub?.unsubscribe()
-      }
-    })
+        this.timerSub?.unsubscribe();
+      };
+    });
     //If the timer of game is equal to the timer set by the user the game is now over
     //We pass the value the the Subject so the first function can stop looping
     this.timerForTheGame.subscribe(time => {
       if (time == this.timerForLengthOfTheGame) {
         this.timeIsOver.next(true);
-      }
-    })
+      };
+    });
     return;
-  }
+  };
 
   restartGame(): void {
    return window.location.reload();
-  }
+  };
 }
