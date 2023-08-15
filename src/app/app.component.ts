@@ -54,7 +54,7 @@ export class AppComponent {
   //Called when the game is started
   sartTheGameAndRandomiseCircles(): Promise<Subscription | void> | boolean {
     //This if block check if the duration of the game set by the user is valid
-    if (!this.timerForLengthOfTheGame || Number.isNaN(this.timerForLengthOfTheGame)) {
+    if (!this.timerForLengthOfTheGame || Number.isNaN(this.timerForLengthOfTheGame) || this.timerForLengthOfTheGame <= 0) {
       return this.undefinedTimerForTheGame = true;
     };
     //else:
@@ -126,7 +126,7 @@ export class AppComponent {
   timerToStopTheGame(): boolean | void {
     //This if block check if the duration of the game set by the user is valid
     //Without it, the rest of the code is doing some weird things...
-    if (!this.timerForLengthOfTheGame || Number.isNaN(this.timerForLengthOfTheGame) == true) {
+    if (!this.timerForLengthOfTheGame || Number.isNaN(this.timerForLengthOfTheGame) || this.timerForLengthOfTheGame <= 0) {
       return this.undefinedTimerForTheGame = true;
     };
     //Assigning the second subscription variable to a real subscription
