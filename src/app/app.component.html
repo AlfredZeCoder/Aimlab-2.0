@@ -1,7 +1,39 @@
-<span class="principal-span">
+<div class="options">
+  <button 
+    class="start-button"
+    (click)="startTheGame()"
+    >
+    Start
+  </button>
+
+  <input type=number [(ngModel)]="gameDuration">
+
+  <p>
+    {{countDown | async}}
+  </p>
+
+  <p *ngIf="showScore">
+    Score: {{currentGameScore}}
+  </p>
+
+</div>
+<div class="playground" #playground>
+  <div 
+    class="circle"
+    *ngIf="isInGame && target.show"
+    [ngStyle]="{
+      'left.px': target.xPosition,
+      'top.px': target.yPosition 
+    }"
+    (click)="targetClicked()"
+   >
+  </div>
+</div>
+
+<!-- <span class="principal-span">
   <input [(ngModel)]="timerForLengthOfTheGame" type="number" placeholder="Duration of the game (seconds)" style="width: 220px; height: 30px;" >
-  <button *ngIf="!displayScore" style="width: 180px; height: 50px;" (click)="sartTheGameAndRandomiseCircles()" (click)="timerToStopTheGame()" >Start</button>
-  <button *ngIf="displayScore" style="width: 180px; height: 50px;" (click)="sartTheGameAndRandomiseCircles()" (click)="restartGame()" >Restart</button>
+  <button *ngIf="!displayScore" style="width: 180px; height: 50px;" (click)="startTheGameAndRandomiseCircles()" (click)="timerToStopTheGame()" >Start</button>
+  <button *ngIf="displayScore" style="width: 180px; height: 50px;" (click)="startTheGameAndRandomiseCircles()" (click)="restartGame()" >Restart</button>
   <h3 style="color: red;" *ngIf="undefinedTimerForTheGame"> You need to enter a valid number</h3>
   <h3>Timer: {{durationOfTheGame | async}}</h3>
   <h2 *ngIf="displayScore">Your score is {{scoreOfPlayer}}!</h2>
@@ -11,5 +43,5 @@
    'left.px': position.xPosition - 12,
    'top.px': position.yPosition - 12 
   }"></div>
-</div>      
+</div>       -->
 
